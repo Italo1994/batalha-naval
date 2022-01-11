@@ -1,64 +1,61 @@
 programa {
 	inclua biblioteca Util
-	inteiro pontuacao = 0
+	inteiro pontuacao = 0, quantNaviosJogador=0, quantNaviosInimigo=0
 	
 	funcao inicializaTabuleiro(cadeia tabuleiro[][]) {
 		inteiro i=0, j=0
 		
-		para(i=0; i<9; i++) {
-		    para(j=0; j<9; j++) {
-		    	tabuleiro[i][j] = " _ "
+		para(i=0; i<10; i++) {
+		    para(j=0; j<10; j++) {
+		    	tabuleiro[i][j] = "  _  "
 		    }
 		}
 	}
 
-	funcao exibirTabuleiro(cadeia tabuleiro[][], caracter letras_colunas[]) {
-		
-		inicializaLetrasColunas(letras_colunas) // Preenchendo as colunas com as letras de A a I para demarcação
+	funcao exibirTabuleiro(cadeia tabuleiro_jogador[][], cadeia tabuleiro_maquina[][], caracter letras_colunas[]) {
+		escreva("\t\tJogador\t\t\t\t\t						Máquina\n\n\n")
+		inicializaLetrasColunas(letras_colunas) // Preenchendo as colunas com as letras de A a J para demarcação antes de iniciar a primeira linha do mapa
+		escreva("\t\t\t\t")
+		inicializaLetrasColunas(letras_colunas)
+		escreva("\n\n")
 		inteiro i=0, j=0
 		
-		para(i=0; i<9; i++) {
+		para(i=0; i<10; i++) {
 		    escreva(i+1," ")
 		    para(j=0; j<10; j++) {
-		     escreva(tabuleiro[i][j])
+		     escreva(tabuleiro_jogador[i][j])
+		    }
+		    escreva("\t\t\t\t")
+		    para(j=0; j<10; j++) {
+		     escreva(tabuleiro_maquina[i][j])
 		    }
 		    escreva("\n\n")
 		}
 	}
 
+	// Função que escreve as colunas demarcadas pelos caracteres de A a J e exibe na tela
 	funcao inicializaLetrasColunas(caracter letras[]) {
 		inteiro i=0, j=0
 		
-		para(i=0; i<10; i++) {
+		para(i=0; i<11; i++) { // itera de 0 a 10 (11 posições) porque uma posição é utilizada para gerar o espaçamento entre as marcaççoes de linhas e colunas (letras e números)
 			se(i==0) {
 				escreva("   ")
 			} senao {
-				escreva(letras[i-1],"  ")
+				escreva(letras[i-1],"    ")
 			}
 		}
-		escreva("\n\n")
+		//escreva("\n\n")
 	}
 
-	funcao tipoJogador(cadeia &tabuleiro_jogador[][], cadeia &tabuleiro_maquina[][]) {
-		inteiro opcao=0 // opção para o tipo de jogador
+	//funcao tipoJogador(cadeia &tabuleiro_jogador[][], cadeia &tabuleiro_maquina[][]) {
 
-		// Laço para garantir que o usuário vai escolher uma opção válida para o tipo de jogador
-		faca {
-			escreva("Informe em qual tabuleiro deseja inserir os navios. Digite 1 para o 'jogador principal' ou 2 para a 'máquina': \n")
-			leia(opcao)
-		} enquanto(opcao != 1 e opcao != 2)
+			//tiposDeNavios(tabuleiro_jogador, tabuleiro_maquina)
 
-		se(opcao == 1) { // verifica se o tipo de jogador é uma pessoa
-			tiposDeNavios(tabuleiro_jogador)
-		}
-		se(opcao == 2) { // verifica se o tipo de jogador é uma máquina
-			tiposDeNavios(tabuleiro_maquina)
-		}
-	}
+	//}
 
 	// função que escolhe os tipos de navios para inserção no tabuleiro do jogador principal ou da máquina
-	funcao tiposDeNavios(cadeia &tabuleiro_objeto[][]) {
-		inteiro opcaoNavio = 0, linha = 0, coluna = 0, posicoes = 0
+	funcao tiposDeNavios(cadeia &tabuleiro_jogador[][], cadeia &tabuleiro_maquina[][]) {
+		inteiro opcaoNavio = 0, posicoes = 0
 		cadeia tipo = ""
 		
 		escreva("Tipos de navios disponíveis\n")
@@ -71,92 +68,108 @@ programa {
 
 		se(opcaoNavio == 1) {
 			posicoes = 5
-			tipo = " P "
+			tipo = "  P  "
 			
-			escreva("Em qual linha você deseja inserir o navio porta aviões?\n")
-			leia(linha)
-			escreva("Em qual coluna você deseja inserir o navio porta aviões?\n")
-			leia(coluna)
-			alteraTabuleiroComNavios(tabuleiro_objeto, linha, coluna, posicoes, tipo)
+			
+			alteraTabuleiroComNavios(tabuleiro_jogador, tabuleiro_maquina, posicoes, tipo)
 		}
 		senao se(opcaoNavio == 2) {
 			posicoes = 4
-			tipo = " T "
+			tipo = "  T  "
 			
-			escreva("Em qual linha você deseja inserir o navio porta aviões?\n")
-			leia(linha)
-			escreva("Em qual coluna você deseja inserir o navio porta aviões?\n")
-			leia(coluna)
-			alteraTabuleiroComNavios(tabuleiro_objeto, linha, coluna, posicoes, tipo)
+			
+			alteraTabuleiroComNavios(tabuleiro_jogador, tabuleiro_maquina, posicoes, tipo)
 		}
 		senao se(opcaoNavio == 3) {
 			posicoes = 3
-			tipo = " C "
+			tipo = "  C  "
 			
-			escreva("Em qual linha você deseja inserir o navio porta aviões?\n")
-			leia(linha)
-			escreva("Em qual coluna você deseja inserir o navio porta aviões?\n")
-			leia(coluna)
-			alteraTabuleiroComNavios(tabuleiro_objeto, linha, coluna, posicoes, tipo)
+			
+			alteraTabuleiroComNavios(tabuleiro_jogador, tabuleiro_maquina, posicoes, tipo)
 		}
 		senao se(opcaoNavio == 4) {
 			posicoes = 2
-			tipo = " S "
+			tipo = "  S  "
 			
-			escreva("Em qual linha você deseja inserir o navio porta aviões?\n")
-			leia(linha)
-			escreva("Em qual coluna você deseja inserir o navio porta aviões?\n")
-			leia(coluna)
+			
 
-			alteraTabuleiroComNavios(tabuleiro_objeto, linha, coluna, posicoes, tipo)
+			alteraTabuleiroComNavios(tabuleiro_jogador, tabuleiro_maquina, posicoes, tipo)
 		}
 	}
 
 	// função para alterar o tabuleiro e colocar o navio na posição específica
-	funcao alteraTabuleiroComNavios(cadeia &tabuleiro[][], inteiro linha, inteiro coluna, inteiro posicoes, cadeia tipo) {
+	funcao alteraTabuleiroComNavios(cadeia &tabuleiro[][], cadeia &tabuleiro2[][], inteiro posicoes, cadeia tipo) {
 		inteiro i=0, j=0, k=0, l=0 // variáveis de controle para incremento. A variável l serve para receber o valor da coluna passada por parâmetro e incrementar até preencher o navio por completo
-		caracter letras_colunas[9] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'} // Inicializa o array com os rótulos das colunas
-		
-		para(i=0; i<9; i++) {
-		    para(j=0; j<9; j++) {
-		    	se(linha == i e coluna == j) { // Verifica se a linha e a coluna são as que foram passadas por parâmetro para a função
-		    		l = coluna // a variável l recebe o valor da variável coluna para incrementar dentro do próximo laço e preencher com o navio nas colunas corretas
+		caracter letras_colunas[10] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'} // Inicializa o array com os rótulos das colunas
+		inteiro linhaJogador = Util.sorteia(0, 9), colunaJogador = Util.sorteia(0, 9), linhaInimigo = Util.sorteia(0, 9), colunaInimigo = Util.sorteia(0, 9)
+
+		para(i=0; i<10; i++) {
+		    para(j=0; j<10; j++) {
+		    	se(linhaJogador == i e colunaJogador == j) { // Verifica se a linha e a coluna são as que foram passadas por parâmetro para a função
+		    		l = colunaJogador // a variável l recebe o valor da variável coluna para incrementar dentro do próximo laço e preencher com o navio nas colunas corretas
 		    		para(k=0; k < posicoes; k++) {
-		    			tabuleiro[linha-1][l] = "" // zera o valor original do tabuleiro
-		    			tabuleiro[linha-1][l] = tipo // substítui pelo valor do navio
+		    			tabuleiro[linhaJogador][l] = "" // zera o valor original do tabuleiro
+		    			tabuleiro[linhaJogador][l] = tipo // substítui pelo valor do navio
 
 		    			l++
 		    		}
 		    	} senao {
-		    		tabuleiro[i][j] = " _ "
+		    		tabuleiro[i][j] = "  _  "
+		    	}
+		    }
+
+			l=0
+			escreva("\t")
+			
+		    // mapa do inimigo
+		    para(j=0; j<10; j++) {
+		    	se(linhaInimigo == i e colunaInimigo == j) { // Verifica se a linha e a coluna são as que foram passadas por parâmetro para a função
+		    		l = colunaInimigo // a variável l recebe o valor da variável coluna para incrementar dentro do próximo laço e preencher com o navio nas colunas corretas
+		    		para(k=0; k < posicoes; k++) {
+		    			tabuleiro2[linhaInimigo][l] = "" // zera o valor original do tabuleiro
+		    			tabuleiro2[linhaInimigo][l] = tipo // substítui pelo valor do navio
+
+		    			l++
+		    		}
+		    	} senao {
+		    		tabuleiro[i][j] = "  _  "
 		    	}
 		    }
 		}
 
-		exibirTabuleiro(tabuleiro, letras_colunas)
+		faca {
+			inteiro linha=0, coluna=0
+			
+			exibirTabuleiro(tabuleiro, tabuleiro2, letras_colunas)
+			disparar(tabuleiro, tabuleiro2, linha, coluna)
+		} enquanto(quantNaviosJogador != 0 ou quantNaviosInimigo != 0) // os navios forem diferentes de zero
+	}
+
+	funcao disparar(cadeia &tabuleiro[][], cadeia &tabuleiro2[][], inteiro linha, inteiro coluna) {
+		
 	}
 	
 	funcao inicio() {
 		cadeia tabuleiro 
-		cadeia tabuleiro_barco_jogador[9][10]
-		cadeia tabuleiro_bomba_jogador[9][10]
-		cadeia tabuleiro_barco_maquina[9][10]
-		cadeia tabuleiro_bomba_maquina[9][10]
+		cadeia tabuleiro_jogador[10][11] // coluna com 11 posições devido a uma posição ser utilizada para espaço entre marcadores de linhas e colunas (números e letras)
+		cadeia tabuleiro_bomba_jogador[10][11]
+		cadeia tabuleiro_maquina[10][11]
+		cadeia tabuleiro_bomba_maquina[10][11]
 
 		caracter tiposBarcos
 		
-		caracter letras_colunas[9] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'}
+		caracter letras_colunas[10] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'}
 
-		escreva("  ++++++++ BATALHA NAVAL ++++++++\n\n\n\n")
+		escreva("\t\t\t\t\t  ++++++++ BATALHA NAVAL ++++++++\n\n\n\n")
 
-		inicializaTabuleiro(tabuleiro_barco_jogador) // Inicializa o tabuleiro do jogador
-		inicializaTabuleiro(tabuleiro_barco_maquina) // Inicializa o tabuleiro da máquina
+		inicializaTabuleiro(tabuleiro_jogador) // Inicializa o tabuleiro do jogador
+		inicializaTabuleiro(tabuleiro_maquina) // Inicializa o tabuleiro da máquina
 		
-		exibirTabuleiro(tabuleiro_barco_jogador, letras_colunas) // Exibindo o tabuleiro preenchido
+		exibirTabuleiro(tabuleiro_jogador, tabuleiro_maquina, letras_colunas) // Exibindo o tabuleiro preenchido
 		escreva("\n\n")
-		exibirTabuleiro(tabuleiro_barco_maquina, letras_colunas) // Exibindo o tabuleiro preenchido
+		//exibirTabuleiro(tabuleiro_barco_maquina, letras_colunas) // Exibindo o tabuleiro preenchido
 		
-		tipoJogador(tabuleiro_barco_jogador, tabuleiro_barco_maquina)
+		tiposDeNavios(tabuleiro_jogador, tabuleiro_maquina)
 	}
 }
 
@@ -165,7 +178,7 @@ programa {
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 57; 
+ * @POSICAO-CURSOR = 4082; 
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
